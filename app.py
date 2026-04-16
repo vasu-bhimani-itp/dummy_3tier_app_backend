@@ -31,7 +31,7 @@ def create_task():
     cursor = conn.cursor()
 
     # 🔥 Logic: default status = pending
-    cursor.execute("INSERT INTO tasks (title, status) VALUES (?, ?)", (title, "pending"))
+    cursor.execute("INSERT INTO tasks (title, status) VALUES (%s, %s)", (title, "pending"))
     conn.commit()
 
     return jsonify({"message": "Task created"})
@@ -47,7 +47,7 @@ def update_task(id):
 
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE tasks SET status=? WHERE id=?", (status, id))
+    cursor.execute("UPDATE tasks SET status=%s WHERE id=%s", (status, id))
     conn.commit()
 
     return jsonify({"message": "Updated"})
@@ -56,7 +56,7 @@ def update_task(id):
 def delete_task(id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM tasks WHERE id=?", (id,))
+    cursor.execute("DELETE FROM tasks WHERE id=%s", (id,))
     conn.commit()
 
     return jsonify({"message": "Deleted"})

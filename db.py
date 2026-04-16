@@ -1,11 +1,15 @@
-import pyodbc
+import os
+import pymysql
+from urllib.parse import urlparse
 
 def get_connection():
-    conn = pyodbc.connect(
-        "DRIVER={ODBC Driver 17 for SQL Server};"
-        "SERVER=<your-server>.database.windows.net;"
-        "DATABASE=<your-db>;"
-        "UID=<username>;"
-        "PWD=<password>"
+    url = urlparse(os.getenv("MYSQL_URL"))
+
+    return pymysql.connect(
+        host=url.hostname,
+        user=url.username,
+        password=url.password,
+        database=url.path.lstrip('/'),
+        port=url.port or 3306,
+        cursorclass=pymysql.cursors.Cursor
     )
-    return conn
