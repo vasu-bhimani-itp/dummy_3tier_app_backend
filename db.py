@@ -11,5 +11,6 @@ def get_connection():
         password=url.password,
         database=url.path.lstrip('/'),
         port=url.port or 3306,
-        cursorclass=pymysql.cursors.Cursor
+        cursorclass=pymysql.cursors.Cursor,
+        ssl={"ssl": {}}
     )
